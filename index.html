@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AutoDock 4 Moleküler Docking - Eksiksiz Türkçe Rehber">
+    <title>AutoDock 4 Moleküler Docking Rehberi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">AD4</span>
+                <span class="brand-text">AutoDock 4 Rehberi</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#giris" class="nav-link">Giriş</a></li>
+                <li><a href="#genel-bakis" class="nav-link">Genel Bakış</a></li>
+                <li><a href="#protein" class="nav-link">Protein Hazırlama</a></li>
+                <li><a href="#ligand" class="nav-link">Ligand Hazırlama</a></li>
+                <li><a href="#grid" class="nav-link">Grid Box</a></li>
+                <li><a href="#docking" class="nav-link">Docking</a></li>
+                <li><a href="#analiz" class="nav-link">Analiz</a></li>
+                <li><a href="#validasyon" class="nav-link">Validasyon</a></li>
+                <li><a href="#kalite" class="nav-link">Kalite Kontrol</a></li>
+                <li><a href="#sorun-giderme" class="nav-link">Sorun Giderme</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">AutoDock 4<br><span class="subtitle">Moleküler Docking Protokolü</span></h1>
+                <p class="hero-description">Protein hazırlamadan sonuç validasyonuna kadar eksiksiz, adım adım Türkçe rehber</p>
+                <div class="hero-meta">
+                    <span class="badge">Kapsamlı Protokol</span>
+                    <span class="badge">Kalite Kontrol</span>
+                    <span class="badge">Best Practices</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-bg"></div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Giriş -->
+            <section id="giris" class="section">
+                <div class="section-header">
+                    <span class="section-number">01</span>
+                    <h2>Giriş</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">AutoDock 4, protein-ligand moleküler docking için yaygın kullanılan, açık kaynaklı bir yazılımdır. Bu rehber, güvenilir ve yayınlanabilir sonuçlar elde etmek için gereken eksiksiz protokolü içerir.</p>
+                    
+                    <div class="info-box warning">
+                        <h4>⚠️ Kritik Uyarı</h4>
+                        <p>"Koordinat hazırlama, docking simülasyonundaki en önemli adımdır. Docking sonuçlarının kalitesi ve doğruluğu, başlangıç koordinatlarının kalitesi kadar iyidir."</p>
+                        <cite>— AutoDock User Guide</cite>
+                    </div>
+
+                    <h3>Neden Bu Rehber?</h3>
+                    <p>Çoğu AutoDock tutorialleri sadece temel adımları gösterir, ancak:</p>
+                    <ul>
+                        <li>Protein ön işleme detayları eksiktir (su molekülleri, yük ataması, protonasyon)</li>
+                        <li>Validasyon metodları anlatılmaz (redocking protokolü)</li>
+                        <li>Sonuç analizi ve yorumlama yetersizdir</li>
+                        <li>Kalite kontrol checklistleri yoktur</li>
+                        <li>Yaygın hatalar ve çözümleri eksiktir</li>
+                    </ul>
+                    
+                    <p>Bu rehber, akademik yayınlarda kabul görecek standartlarda docking çalışmaları yapmanız için gereken tüm bilgileri içerir.</p>
+                </div>
+            </section>
+
+            <!-- Genel Bakış -->
+            <section id="genel-bakis" class="section">
+                <div class="section-header">
+                    <span class="section-number">02</span>
+                    <h2>Workflow Genel Bakış</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">AutoDock 4 workflow'u 5 ana fazdan oluşur. Her faz için spesifik kontroller yapılmalıdır.</p>
+                    
+                    <div class="workflow-grid">
+                        <div class="workflow-card phase-1">
+                            <div class="card-number">1</div>
+                            <h3>Hazırlama</h3>
+                            <p>Protein ve ligand ön işleme, yapı optimizasyonu</p>
+                            <ul class="check-list">
+                                <li>Su moleküllerinin kaldırılması</li>
+                                <li>Hidrojen ekleme</li>
+                                <li>Yük ataması</li>
+                                <li>Protonasyon durumları</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workflow-card phase-2">
+                            <div class="card-number">2</div>
+                            <h3>Grid Box Kurulumu</h3>
+                            <p>Bağlanma bölgesi arama uzayının tanımlanması</p>
+                            <ul class="check-list">
+                                <li>Bağlanma bölgesi belirleme</li>
+                                <li>Grid parametreleri</li>
+                                <li>GPF dosyası oluşturma</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workflow-card phase-3">
+                            <div class="card-number">3</div>
+                            <h3>Docking</h3>
+                            <p>Konformasyonel arama ve enerji hesaplaması</p>
+                            <ul class="check-list">
+                                <li>GA parametreleri ayarı</li>
+                                <li>AutoGrid4 çalıştırma</li>
+                                <li>AutoDock4 çalıştırma</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workflow-card phase-4">
+                            <div class="card-number">4</div>
+                            <h3>Analiz</h3>
+                            <p>Kümeleme değerlendirmesi ve enerji sıralaması</p>
+                            <ul class="check-list">
+                                <li>DLG dosyası inceleme</li>
+                                <li>Clustering analizi</li>
+                                <li>Görsel inceleme</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workflow-card phase-5">
+                            <div class="card-number">5</div>
+                            <h3>Validasyon</h3>
+                            <p>Redocking ve kalite kontrol</p>
+                            <ul class="check-list">
+                                <li>Redocking protokolü</li>
+                                <li>RMSD hesaplama</li>
+                                <li>Sonuçların doğrulanması</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Protein Hazırlama -->
+            <section id="protein" class="section">
+                <div class="section-header">
+                    <span class="section-number">03</span>
+                    <h2>Protein Hazırlama</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">Protein hazırlama, docking başarısının temel taşıdır. Her adım dikkatle uygulanmalıdır.</p>
+                    
+                    <h3>3.1. Ön İşleme Adımları</h3>
+                    
+                    <div class="step-box">
+                        <div class="step-number">Adım 1</div>
+                        <div class="step-content">
+                            <h4>Su Moleküllerinin Kaldırılması</h4>
+                            <p><strong>ADT'de:</strong> <code>Edit → Delete Water</code></p>
+                            <div class="info-box info">
+                                <p><strong>İstisna:</strong> Bilinen etkileşimlere aracılık eden su molekülleri korunabilir, ancak bu çoğunlukla ileri düzey uygulamalardır.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 2</div>
+                        <div class="step-content">
+                            <h4>Heteroatom Yönetimi</h4>
+                            <p>Ko-kristalize ligandlar, iyonlar ve kofaktörler için karar verilmelidir:</p>
+                            <ul>
+                                <li><strong>Ko-kristalize ligandlar:</strong> Genellikle kaldırılır (blind docking için)</li>
+                                <li><strong>Kofaktörler:</strong> Bağlanma için gerekli olanlar korunur (örn: hem, NAD+)</li>
+                                <li><strong>Metal iyonları:</strong> Katalizde rol alanlar korunmalı, yükleri manuel düzeltilmelidir</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 3</div>
+                        <div class="step-content">
+                            <h4>Alternatif Konformasyon Seçimi</h4>
+                            <p>PDB dosyalarında 17. kolon alternatif lokasyonları gösterir (A, B, vb.). Her kalıntı için sadece bir konformasyon seçilmelidir.</p>
+                            <pre><code class="language-bash"># PyMOL ile alternatif konformasyonları kontrol
+select alt_A, alt A
+select alt_B, alt B
+remove alt_B  # Bir konformasyonu seç ve diğerini kaldır</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 4</div>
+                        <div class="step-content">
+                            <h4>Eksik Atom Tamiri</h4>
+                            <p><strong>ADT'de:</strong> <code>Edit → Misc → Check for missing atoms</code></p>
+                            <p>Eksik yan zincir atomları valans hatasına neden olur. Tamir edilmeden devam edilmemelidir.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 5</div>
+                        <div class="step-content">
+                            <h4>Hidrojen Atomlarının Eklenmesi</h4>
+                            <p><strong>ADT'de:</strong> <code>Edit → Hydrogens → Add</code></p>
+                            <div class="info-box warning">
+                                <p><strong>Kritik:</strong> AutoDock 4, reseptör için <strong>sadece polar hidrojenleri</strong> kullanır (united-atom modeli). Apolar hidrojenlerin yükleri karbon atomlarına birleştirilir.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 6</div>
+                        <div class="step-content">
+                            <h4>Kısmi Yük Ataması</h4>
+                            <p><strong>ADT'de:</strong> <code>Edit → Charges → Add Kollman/Gasteiger</code></p>
+                            <ul>
+                                <li><strong>Kollman:</strong> Amber force field yükleri (önerilir)</li>
+                                <li><strong>Gasteiger:</strong> Hızlı empirik yük hesaplama</li>
+                            </ul>
+                            <p>ADT, kalıntı başına yük toplamlarının tamsayı olduğunu otomatik kontrol eder.</p>
+                            
+                            <div class="info-box danger">
+                                <h4>🔴 Özel Durum: Metal İyonları</h4>
+                                <p>Çinko iyonları ADT'de varsayılan olarak <strong>0.0 yük</strong> alır. PDBQT dosyasında manuel olarak <strong>+2.0</strong>'a düzeltilmelidir:</p>
+                                <pre><code class="language-text">ATOM   1234  ZN  ZN  A 500      10.123  20.456  30.789  1.00 20.00    +2.000 Zn</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>3.2. Protonasyon Durumu Belirleme</h3>
+                    <p>Yanlış protonasyon durumları, özellikle histidin için, kötü docking tahminlerinin önde gelen nedenidir.</p>
+                    
+                    <div class="tool-grid">
+                        <div class="tool-card">
+                            <h4>PROPKA</h4>
+                            <p>Web sunucusu veya standalone</p>
+                            <a href="https://github.com/jensengroup/propka" target="_blank" class="btn-link">GitHub →</a>
+                        </div>
+                        <div class="tool-card">
+                            <h4>H++</h4>
+                            <p>Virginia Tech HTTP server</p>
+                            <a href="http://biophysics.cs.vt.edu/H++" target="_blank" class="btn-link">Web Tool →</a>
+                        </div>
+                        <div class="tool-card">
+                            <h4>PDB2PQR</h4>
+                            <p>Komut satırı aracı</p>
+                            <a href="https://www.poissonboltzmann.org/" target="_blank" class="btn-link">Dokümantasyon →</a>
+                        </div>
+                    </div>
+
+                    <div class="formula-box">
+                        <h4>Atama Kuralı:</h4>
+                        <p class="formula">pKa > pH → Protonlanmış<br>
+                        pKa < pH → Deprotonlanmış<br>
+                        Standart pH = 7.4 (fizyolojik)</p>
+                    </div>
+
+                    <h4>Histidin Tautomerleri</h4>
+                    <p>Histidin, pKa ≈ 6.0 nedeniyle pH'dan en çok etkilenen aminoasittir.</p>
+                    <div class="grid-3">
+                        <div class="info-box">
+                            <h5>HID</h5>
+                            <p>δ nitrojeni üzerinde H</p>
+                        </div>
+                        <div class="info-box">
+                            <h5>HIE</h5>
+                            <p>ε nitrojeni üzerinde H</p>
+                        </div>
+                        <div class="info-box">
+                            <h5>HIP</h5>
+                            <p>Her iki N de protonlanmış</p>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Genel kılavuz:</strong></p>
+                    <ul>
+                        <li>Metal koordinasyonu yapan His → Genellikle deprotonlanmış</li>
+                        <li>Aktif bölgedeki His → Protonlanmış olabilir</li>
+                        <li>Yüzeydeki His → pH'a göre belirlenir</li>
+                    </ul>
+
+                    <h3>3.3. PDBQT Olarak Kaydetme</h3>
+                    <p><strong>ADT'de:</strong> <code>Grid → Macromolecule → Open</code></p>
+                    <p>ADT otomatik olarak PDBQT formatında kaydetme iletişim kutusu açacaktır.</p>
+                </div>
+            </section>
+
+            <!-- Ligand Hazırlama -->
+            <section id="ligand" class="section">
+                <div class="section-header">
+                    <span class="section-number">04</span>
+                    <h2>Ligand Hazırlama</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">Ligand hazırlama, doğru 3D yapı, yük hesaplaması ve rotatable bond tanımını içerir.</p>
+                    
+                    <h3>4.1. Temel Adımlar</h3>
+                    
+                    <div class="step-box">
+                        <div class="step-number">Adım 1</div>
+                        <div class="step-content">
+                            <h4>3D Yapı Oluşturma</h4>
+                            <p>2D'den başlıyorsanız, 3D koordinatlar oluşturulmalıdır:</p>
+                            <pre><code class="language-bash"># Open Babel ile
+obabel ligand_2d.smi -O ligand_3d.mol2 --gen3d
+
+# Avogadro GUI ile de yapılabilir</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 2</div>
+                        <div class="step-content">
+                            <h4>Enerji Minimizasyonu</h4>
+                            <p>Yapısal gerilimi kaldırmak için MMFF94 veya UFF force field kullanın:</p>
+                            <pre><code class="language-bash"># Open Babel ile minimizasyon
+obabel ligand.mol2 -O ligand_min.mol2 --minimize --ff MMFF94 --steps 500</code></pre>
+                            <p>Avogadro'da: <code>Extensions → Molecular Mechanics → Setup Force Field → MMFF94 → Optimize Geometry</code></p>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 3</div>
+                        <div class="step-content">
+                            <h4>Hedef pH'da Protonlama</h4>
+                            <pre><code class="language-bash"># Open Babel ile pH 7.4'te protonlama
+obabel ligand.mol2 -O ligand_pH7.4.mol2 -p 7.4</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 4</div>
+                        <div class="step-content">
+                            <h4>ADT'ye Yükleme</h4>
+                            <p><strong>ADT'de:</strong> <code>Ligand → Input → Open</code></p>
+                            <p>Desteklenen formatlar: MOL2, PDB, SDF</p>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 5</div>
+                        <div class="step-content">
+                            <h4>Gasteiger Yük Hesaplama</h4>
+                            <p>ADT'de otomatiktir, ancak yükler kontrol edilmelidir:</p>
+                            <ul>
+                                <li>Toplam yük makul olmalı (tam sayı veya yakın)</li>
+                                <li>Polar atomlar uygun yüklere sahip olmalı</li>
+                                <li>Yüklü gruplar doğru işaretlenmelidir</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>4.2. Torsion Tree Konfigürasyonu</h3>
+                    <p><strong>ADT'de:</strong> <code>Ligand → Torsion Tree → Choose Torsions</code></p>
+                    
+                    <div class="info-box info">
+                        <h4>Renk Kodlaması</h4>
+                        <ul>
+                            <li><span style="color: #10b981; font-weight: bold;">●</span> Yeşil: Aktif torsiyon (dönecek)</li>
+                            <li><span style="color: #ef4444; font-weight: bold;">●</span> Kırmızı: Rijit bağ (dönmez)</li>
+                            <li><span style="color: #a855f7; font-weight: bold;">●</span> Magenta: Potansiyel rotatable ama inaktif</li>
+                        </ul>
+                    </div>
+
+                    <h4>Rotatable Olmayan Bağlar:</h4>
+                    <ul>
+                        <li>Halkalardaki bağlar (aromatik veya alifatik)</li>
+                        <li>Amid bağları (peptit C-N)</li>
+                        <li>Terminal atomlara bağlar</li>
+                        <li>Çift/üçlü bağlar</li>
+                    </ul>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Torsiyon Sayısı</th>
+                                    <th>Karmaşıklık</th>
+                                    <th>Önerilen Evaluations</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1-4</td>
+                                    <td>Basit</td>
+                                    <td>250,000</td>
+                                </tr>
+                                <tr>
+                                    <td>5-7</td>
+                                    <td>Orta</td>
+                                    <td>2,500,000</td>
+                                </tr>
+                                <tr>
+                                    <td>8-10</td>
+                                    <td>Karmaşık</td>
+                                    <td>10,000,000 - 25,000,000</td>
+                                </tr>
+                                <tr class="warning-row">
+                                    <td>>10</td>
+                                    <td>Çok karmaşık</td>
+                                    <td>Ligandı parçalamayı düşünün</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-box warning">
+                        <p><strong>Limit:</strong> Maksimum 32 aktif torsiyon izin verilir, ancak tekrarlanabilir sonuçlar için ≤10 önerilir.</p>
+                    </div>
+
+                    <h3>4.3. Atom Tipi Doğrulaması</h3>
+                    <p>PDBQT dosyasındaki atom tipleri doğru olmalıdır:</p>
+                    <div class="grid-2">
+                        <div>
+                            <h5>Yaygın Atom Tipleri:</h5>
+                            <ul>
+                                <li><code>A</code> - Karbon (aromatik)</li>
+                                <li><code>C</code> - Karbon (alifatik)</li>
+                                <li><code>HD</code> - H-bağı donör H</li>
+                                <li><code>NA</code> - Nitrojen (aromatik)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul style="margin-top: 35px;">
+                                <li><code>OA</code> - Oksijen (alıcı)</li>
+                                <li><code>SA</code> - Kükürt (alıcı)</li>
+                                <li><code>N</code> - Nitrojen (alifatik)</li>
+                                <li><code>F</code>, <code>Cl</code>, <code>Br</code>, <code>I</code> - Halojenler</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>4.4. PDBQT Olarak Kaydetme</h3>
+                    <p><strong>ADT'de:</strong> <code>Ligand → Output → Save as PDBQT</code></p>
+                    <p>Uzantıyı manuel olarak yazın: <code>ligand.pdbqt</code></p>
+                </div>
+            </section>
+
+            <!-- Grid Box -->
+            <section id="grid" class="section">
+                <div class="section-header">
+                    <span class="section-number">05</span>
+                    <h2>Grid Box Kurulumu</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">Grid box, AutoDock'un ligandı arayacağı 3D uzayı tanımlar. Doğru yerleştirme ve boyutlandırma kritiktir.</p>
+                    
+                    <h3>5.1. Grid Box Merkezleme Yöntemleri</h3>
+                    
+                    <div class="grid-2">
+                        <div class="method-card">
+                            <h4>1. Ligand Üzerine Merkezle</h4>
+                            <p>Ko-kristalize ligand bağlanma bölgesini tanımlıyorsa kullanılır.</p>
+                            <p><strong>ADT'de:</strong> <code>Grid → Grid Box → Center → Center on ligand</code></p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h4>2. Atom Seç</h4>
+                            <p>Bağlanma bölgesi kalıntısının manuel seçimi.</p>
+                            <p><strong>ADT'de:</strong> İlgili atomu seçin ve "Pick an atom" kullanın</p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h4>3. Makromolekül Üzerine</h4>
+                            <p>Blind docking için (daha büyük box gerekir).</p>
+                            <p><strong>Dikkat:</strong> Hesaplama maliyeti yüksektir</p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h4>4. İsimlendirilmiş Atom</h4>
+                            <p>Spesifik kalıntıyı isme göre hedefle (ileri düzey).</p>
+                            <p>Komut satırında GPF düzenlemesi gerekir</p>
+                        </div>
+                    </div>
+
+                    <h3>5.2. Kritik Parametreler</h3>
+                    
+                    <div class="param-box">
+                        <h4>Grid Noktaları (Çift sayı olmalı)</h4>
+                        <p><strong>Varsayılan:</strong> 40×40×40 nokta ≈ boyut başına ~15 Å</p>
+                        <p>Her eksen için ayrı ayrı ayarlanabilir. Ligandın en uzun konformasyonunu içermelidir.</p>
+                        <pre><code class="language-text">npts 40 40 40   # x, y, z yönlerinde grid noktaları</code></pre>
+                    </div>
+
+                    <div class="param-box">
+                        <h4>Grid Aralığı</h4>
+                        <p><strong>Varsayılan:</strong> 0.375 Å (≈ C-C bağının ¼'ü)</p>
+                        <div class="info-box danger">
+                            <p><strong>Uyarı:</strong> Gerekmedikçe DEĞİŞTİRMEYİN. Bu değer AutoDock için optimize edilmiştir.</p>
+                        </div>
+                        <pre><code class="language-text">spacing 0.375   # Grid aralığı (Å)</code></pre>
+                    </div>
+
+                    <div class="param-box">
+                        <h4>Box Boyutlandırma Kuralı</h4>
+                        <div class="info-box info">
+                            <p>Hacim, ligandın en uzun konformasyonunda serbestçe dönmesine izin vermelidir. Ligandın en uzun boyutuna her yönden en az <strong>5-10 Å</strong> marj ekleyin.</p>
+                        </div>
+                    </div>
+
+                    <h3>5.3. Görsel Doğrulama</h3>
+                    <div class="checklist-box">
+                        <h4>✓ Grid Box Kontrol Listesi:</h4>
+                        <ul class="checklist">
+                            <li>Box tüm bağlanma bölgesini kapsar</li>
+                            <li>Ligand en uzun konformasyonda box içine sığar</li>
+                            <li>Önemli kalıntılar box içindedir</li>
+                            <li>Box gereksiz yere büyük değil (hesaplama maliyeti)</li>
+                            <li>Box merkezi bağlanma bölgesinin merkezindedir</li>
+                        </ul>
+                    </div>
+
+                    <h3>5.4. Map Types (Atom Tipleri)</h3>
+                    <p><strong>ADT'de:</strong> <code>Grid → Set Map Types → Choose Ligand</code></p>
+                    <p>ADT, ligandınızdaki tüm atom tiplerini otomatik olarak tanımlar ve grid haritaları oluşturur.</p>
+
+                    <h3>5.5. GPF Dosyası Kaydetme</h3>
+                    <p><strong>ADT'de:</strong> <code>Grid → Output → Save GPF</code></p>
+                    <p>Uzantıyı manuel yazın: <code>docking.gpf</code></p>
+                    
+                    <div class="code-preview">
+                        <h4>Örnek GPF İçeriği:</h4>
+                        <pre><code class="language-text">npts 40 40 40                # grid nokta sayıları
+gridfld protein.maps.fld     # grid field dosyası
+spacing 0.375                # grid aralığı
+receptor_types A C OA N SA HD  # reseptör atom tipleri
+ligand_types A C OA N HD     # ligand atom tipleri
+receptor protein.pdbqt       # reseptör dosyası
+gridcenter 15.123 20.456 25.789  # grid merkezi (x y z)
+smooth 0.5                   # potansiyel düzgünleştirme
+map protein.A.map            # atom tipi haritaları
+map protein.C.map
+map protein.OA.map
+map protein.N.map
+map protein.HD.map
+elecmap protein.e.map        # elektrostatik harita
+dsolvmap protein.d.map       # desolvation harita</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Docking Parametreleri -->
+            <section id="docking" class="section">
+                <div class="section-header">
+                    <span class="section-number">06</span>
+                    <h2>Docking Parametreleri & Çalıştırma</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">Docking parametreleri, sonuçların kalitesini ve hesaplama süresini doğrudan etkiler.</p>
+                    
+                    <h3>6.1. ADT'de Parametre Ayarları</h3>
+                    
+                    <div class="step-box">
+                        <div class="step-number">Adım 1</div>
+                        <div class="step-content">
+                            <h4>Makromolekül Ayarı</h4>
+                            <p><strong>ADT'de:</strong> <code>Docking → Macromolecule → Set Rigid Filename</code></p>
+                            <p>Hazırladığınız <code>protein.pdbqt</code> dosyasını seçin.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 2</div>
+                        <div class="step-content">
+                            <h4>Ligand Seçimi</h4>
+                            <p><strong>ADT'de:</strong> <code>Docking → Ligand → Choose</code></p>
+                            <p>Ligandınızı seçin ve Accept'e tıklayın.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 3</div>
+                        <div class="step-content">
+                            <h4>Arama Parametreleri</h4>
+                            <p><strong>ADT'de:</strong> <code>Docking → Search Parameters → Genetic Algorithm</code></p>
+                            
+                            <div class="param-grid">
+                                <div class="param-card recommended">
+                                    <h5>GA Runs</h5>
+                                    <div class="param-value">50-100</div>
+                                    <p>Bağımsız docking çalıştırma sayısı. Minimum 20, güven için 50+ tercih edilir.</p>
+                                </div>
+                                
+                                <div class="param-card">
+                                    <h5>Population Size</h5>
+                                    <div class="param-value">150</div>
+                                    <p>Nesil başına birey sayısı. Varsayılan çoğu durum için uygundur.</p>
+                                </div>
+                                
+                                <div class="param-card important">
+                                    <h5>Max Evaluations</h5>
+                                    <div class="param-value">2.5M - 25M</div>
+                                    <p>Torsiyon sayısına göre ölçeklendirilir (bkz. Torsiyon tablosu).</p>
+                                </div>
+                                
+                                <div class="param-card">
+                                    <h5>Clustering RMSD</h5>
+                                    <div class="param-value">2.0 Å</div>
+                                    <p>Benzer pozları gruplama toleransı.</p>
+                                </div>
+                            </div>
+
+                            <h5>Local Search Parametreleri:</h5>
+                            <pre><code class="language-text">sw_max_its 300        # Maksimum iterasyon
+ls_search_freq 0.06   # Lokal arama olasılığı
+sw_max_succ 4         # Başarı limiti
+sw_max_fail 4         # Başarısızlık limiti</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="info-box info">
+                        <h4>Algoritma Seçimi</h4>
+                        <p><strong>Önerilen:</strong> Lamarckian Genetic Algorithm (LGA/GALS)</p>
+                        <p>Genetik algoritma ile lokal aramayı birleştirir, ilaç benzeri moleküller için en verimlidir.</p>
+                        <p><strong>Alternatifler:</strong> GA (sadece genetik), SA (simulated annealing), LS (sadece lokal arama) - standart docking için nadiren kullanılır.</p>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">Adım 4</div>
+                        <div class="step-content">
+                            <h4>DPF Dosyası Kaydetme</h4>
+                            <p><strong>ADT'de:</strong> <code>Docking → Output → Lamarckian GA</code></p>
+                            <p>Uzantıyı manuel yazın: <code>docking.dpf</code></p>
+                        </div>
+                    </div>
+
+                    <h3>6.2. Komut Satırında Çalıştırma</h3>
+                    <p>Docking iki aşamalı bir süreçtir:</p>
+                    
+                    <div class="terminal-box">
+                        <h4>Aşama 1: AutoGrid4 (Grid Haritaları Oluşturma)</h4>
+                        <div class="tabs">
+                            <button class="tab-btn active" onclick="switchTab(event, 'win-grid')">Windows</button>
+                            <button class="tab-btn" onclick="switchTab(event, 'unix-grid')">Unix/Linux</button>
+                        </div>
+                        <div id="win-grid" class="tab-content active">
+                            <pre><code class="language-powershell"># PowerShell'de çalışma dizininizde
+.\autogrid4.exe -p docking.gpf -l docking.glg</code></pre>
+                        </div>
+                        <div id="unix-grid" class="tab-content">
+                            <pre><code class="language-bash"># Terminal'de çalışma dizininizde
+autogrid4 -p docking.gpf -l docking.glg</code></pre>
+                        </div>
+                        <p class="terminal-desc">Çıktı: <code>*.map</code> dosyaları (her atom tipi için + e.map + d.map)</p>
+                    </div>
+
+                    <div class="terminal-box">
+                        <h4>Aşama 2: AutoDock4 (Docking Gerçekleştirme)</h4>
+                        <div class="tabs">
+                            <button class="tab-btn active" onclick="switchTab(event, 'win-dock')">Windows</button>
+                            <button class="tab-btn" onclick="switchTab(event, 'unix-dock')">Unix/Linux</button>
+                        </div>
+                        <div id="win-dock" class="tab-content active">
+                            <pre><code class="language-powershell"># PowerShell'de
+.\autodock4.exe -p docking.dpf -l docking.dlg</code></pre>
+                        </div>
+                        <div id="unix-dock" class="tab-content">
+                            <pre><code class="language-bash"># Terminal'de
+autodock4 -p docking.dpf -l docking.dlg</code></pre>
+                        </div>
+                        <p class="terminal-desc">Çıktı: <code>docking.dlg</code> (pozlar, enerjiler, kümeleme ile log dosyası)</p>
+                    </div>
+
+                    <div class="checklist-box">
+                        <h4>Çalıştırmadan Önce Dosya Kontrolü:</h4>
+                        <ul class="checklist">
+                            <li><code>ligand.pdbqt</code> - Hazırlanmış ligand</li>
+                            <li><code>receptor.pdbqt</code> - Hazırlanmış protein</li>
+                            <li><code>docking.gpf</code> - Grid parametre dosyası</li>
+                            <li><code>docking.dpf</code> - Docking parametre dosyası</li>
+                        </ul>
+                        <p><strong>AutoGrid sonrası:</strong> <code>*.map</code> dosyaları mevcut olmalı</p>
+                    </div>
+
+                    <div class="info-box warning">
+                        <h4>⏱️ Hesaplama Süresi Tahmini</h4>
+                        <p>Docking süresi şunlara bağlıdır:</p>
+                        <ul>
+                            <li>Torsiyon sayısı (daha fazla = daha uzun)</li>
+                            <li>Evaluation sayısı (ga_num_evals)</li>
+                            <li>GA runs sayısı</li>
+                            <li>Bilgisayar performansı</li>
+                        </ul>
+                        <p><strong>Örnek:</strong> 7 torsiyonlu ligand, 2.5M evaluations, 50 runs ≈ 30-60 dakika (modern CPU'da)</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sonuç Analizi -->
+            <section id="analiz" class="section">
+                <div class="section-header">
+                    <span class="section-number">07</span>
+                    <h2>Sonuç Analizi</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">DLG (Docking Log) dosyası tüm sonuçları içerir. Doğru yorumlama kritiktir.</p>
+                    
+                    <h3>7.1. DLG Dosyası İnceleme</h3>
+                    
+                    <div class="analysis-grid">
+                        <div class="analysis-card">
+                            <div class="card-icon">✓</div>
+                            <h4>1. Tamamlanma Durumu</h4>
+                            <p>Dosya sonunda "Successful Completion" mesajını kontrol edin. ERROR veya WARNING mesajları parametre sorunlarını gösterir.</p>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <div class="card-icon">ΔG</div>
+                            <h4>2. Bağlanma Enerjileri</h4>
+                            <p><strong>Estimated Free Energy of Binding (ΔG)</strong> kcal/mol cinsinden. İlaç benzeri moleküller için -5 ila -15 kcal/mol tipiktir.</p>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <div class="card-icon">∑</div>
+                            <h4>3. Enerji Bileşenleri</h4>
+                            <p>İntermoleküler + torsiyon penaltısı + bağlı olmayan enerji. Etkileşim tiplerini gösterir.</p>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <div class="card-icon">Ki</div>
+                            <h4>4. İnhibisyon Sabiti</h4>
+                            <p>ΔG'den hesaplanır: Ki = exp(ΔG/RT). Düşük Ki = daha güçlü bağlanma.</p>
+                        </div>
+                    </div>
+
+                    <div class="energy-scale">
+                        <h4>Enerji Aralığı Yorumlama:</h4>
+                        <div class="scale-bar">
+                            <div class="scale-item strong">
+                                <span class="value">&lt; -10</span>
+                                <span class="label">Güçlü Bağlayıcı</span>
+                            </div>
+                            <div class="scale-item moderate">
+                                <span class="value">-7 ila -10</span>
+                                <span class="label">Orta Afinite</span>
+                            </div>
+                            <div class="scale-item weak">
+                                <span class="value">-5 ila -7</span>
+                                <span class="label">Zayıf Etkileşim</span>
+                            </div>
+                            <div class="scale-item none">
+                                <span class="value">&gt; -5</span>
+                                <span class="label">Bağlanma Yok</span>
+                            </div>
+                        </div>
+                        <div class="info-box warning">
+                            <p><strong>⚠️ Uyarı:</strong> Enerjiler görecelidir. Sadece aynı sistem içinde karşılaştırma yapın.</p>
+                        </div>
+                    </div>
+
+                    <h3>7.2. Clustering Analizi</h3>
+                    <p>Kümeler, RMSD'ye göre benzer pozları gruplar. Büyük, düşük enerjili kümeler yüksek güven gösterir.</p>
+                    
+                    <div class="grid-2">
+                        <div class="info-box success">
+                            <h4>✓ İyi Yakınsama:</h4>
+                            <ul>
+                                <li>En büyük küme > %30 run</li>
+                                <li>İlk 3 küme > %70 toplam</li>
+                                <li>Belirgin enerji ayrımları</li>
+                                <li>Kümeler içinde düşük RMSD</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-box danger">
+                            <h4>✗ Kötü Yakınsama:</h4>
+                            <ul>
+                                <li>Çok sayıda tek üyeli küme</li>
+                                <li>Dağınık enerji dağılımı</li>
+                                <li>Baskın bağlanma modu yok</li>
+                                <li>Kümeler içinde yüksek RMSD</li>
+                            </ul>
+                            <p><strong>Çözüm:</strong> ga_num_evals'i 10× artırın veya grid box'ı ayarlayın</p>
+                        </div>
+                    </div>
+
+                    <h4>Poz Seçimi Kriterleri:</h4>
+                    <ol>
+                        <li><strong>Tercih edilen:</strong> En büyük kümenin en düşük enerji üyesi</li>
+                        <li><strong>Alternatif modlar:</strong> Büyük kümelerden (%10+ runs) temsilciler</li>
+                        <li><strong>RMSD Tipleri:</strong>
+                            <ul>
+                                <li>Cluster RMSD: Grup içi varyasyon</li>
+                                <li>Reference RMSD: Bilinen yapıdan (varsa)</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>7.3. ADT'de Sonuçları Yükleme</h3>
+                    <p><strong>ADT'de:</strong> <code>Analyze → Dockings → Open</code></p>
+                    <p>DLG dosyasını seçin. ADT otomatik olarak:</p>
+                    <ul>
+                        <li>Tüm pozları yükler</li>
+                        <li>Kümelemeyi analiz eder</li>
+                        <li>Histogram oluşturur</li>
+                        <li>Konformasyonlar arasında gezinmenize izin verir</li>
+                    </ul>
+
+                    <p><strong>Histogram görüntüleme:</strong> <code>Analyze → Clusterings → Show</code></p>
+
+                    <h3>7.4. Poz Koordinatlarını Çıkarma</h3>
+                    <pre><code class="language-bash"># DLG'den tüm docklanmış pozları çıkar
+grep "^DOCKED" docking.dlg > all_poses.pdbqt
+
+# Sadece en iyi pozu çıkar (en düşük enerji)
+grep -A 100 "RANKING" docking.dlg | grep "^DOCKED" | head -n 50 > best_pose.pdbqt</code></pre>
+                </div>
+            </section>
+
+            <!-- Validasyon -->
+            <section id="validasyon" class="section">
+                <div class="section-header">
+                    <span class="section-number">08</span>
+                    <h2>Validasyon: Redocking Protokolü</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">Redocking, metodoloji nin kristalografik pozu yeniden üretebileceğini doğrular. Yayınlanabilir sonuçlar için <strong>zorunludur</strong>.</p>
+                    
+                    <div class="info-box warning">
+                        <h4>🔬 Bilimsel Gereklillik</h4>
+                        <p>Akademik yayınlar, docking protokolünün bilinen yapılarla valide edilmesini gerektirir. Redocking RMSD, protokolünüzün hassasiyetini kantitifiye eder.</p>
+                    </div>
+
+                    <h3>8.1. Standart Redocking Protokolü</h3>
+                    
+                    <div class="protocol-steps">
+                        <div class="protocol-step">
+                            <div class="step-num">1</div>
+                            <div class="step-content">
+                                <h4>Ko-kristalize Ligandı Çıkarın</h4>
+                                <p>Bilinen kompleksten (örn. PDB'den) ko-kristalize ligandı çıkarın:</p>
+                                <pre><code class="language-python"># PyMOL ile
+fetch 1HSG  # Örnek PDB kodu
+select ligand, resn MK1  # Ligand residue adı
+save ligand_crystal.pdb, ligand
+remove ligand
+save protein_apo.pdb</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="protocol-step">
+                            <div class="step-num">2</div>
+                            <div class="step-content">
+                                <h4>Protein ve Ligandı Hazırlayın</h4>
+                                <p>Her ikisi için de <strong>standart protokolü</strong> kullanın (Bölüm 3 ve 4). Hiçbir adımı atlamayın.</p>
+                            </div>
+                        </div>
+
+                        <div class="protocol-step">
+                            <div class="step-num">3</div>
+                            <div class="step-content">
+                                <h4>Grid Box'ı Orijinal Pozisyona Merkezleyin</h4>
+                                <p>ADT'de ligandı yükleyin ve "Center on ligand" kullanın. Grid box parametreleri planladığınız çalışma ile <strong>aynı</strong> olmalıdır.</p>
+                            </div>
+                        </div>
+
+                        <div class="protocol-step">
+                            <div class="step-num">4</div>
+                            <div class="step-content">
+                                <h4>İDENTIK Parametrelerle Docking Çalıştırın</h4>
+                                <p>GA runs, evaluations, clustering RMSD - hepsi aynı olmalı. Random seed hariç her şey aynı olmalıdır.</p>
+                            </div>
+                        </div>
+
+                        <div class="protocol-step">
+                            <div class="step-num">5</div>
+                            <div class="step-content">
+                                <h4>RMSD Hesaplayın</h4>
+                                <p>Docklanmış poz ile kristalografik poz arasında:</p>
+                                <pre><code class="language-python"># PyMOL ile
+load ligand_crystal.pdb
+load best_docked_pose.pdb
+align best_docked_pose, ligand_crystal
+# RMSD değeri ekranda gösterilir</code></pre>
+                                <p><strong>Alternatif - ADT RMSD Tool:</strong> <code>Analyze → Conformations → RMSD Calculator</code></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>8.2. RMSD Kabul Kriterleri</h3>
+                    
+                    <div class="rmsd-scale">
+                        <div class="rmsd-item excellent">
+                            <div class="rmsd-value">&lt; 2.0 Å</div>
+                            <div class="rmsd-label">
+                                <strong>Mükemmel</strong>
+                                <p>Yüksek hassasiyet, protokol valide</p>
+                            </div>
+                        </div>
+                        
+                        <div class="rmsd-item acceptable">
+                            <div class="rmsd-value">2.0 - 3.0 Å</div>
+                            <div class="rmsd-label">
+                                <strong>Kabul Edilebilir</strong>
+                                <p>Makul güvenilir tahminler</p>
+                            </div>
+                        </div>
+                        
+                        <div class="rmsd-item unacceptable">
+                            <div class="rmsd-value">&gt; 3.0 Å</div>
+                            <div class="rmsd-label">
+                                <strong>Kabul Edilemez</strong>
+                                <p>Parametreleri ayarlayın, hazırlamayı kontrol edin</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>8.3. Validasyon Başarısız Olursa</h3>
+                    <p>RMSD > 3.0 Å ise, sırayla kontrol edin:</p>
+                    
+                    <div class="troubleshoot-grid">
+                        <div class="trouble-card">
+                            <h4>1. Protonasyon Durumları</h4>
+                            <ul>
+                                <li>Histidin tautomerlerini yeniden kontrol edin</li>
+                                <li>pKa hesaplamalarını tekrar yapın</li>
+                                <li>Aktif bölgedeki asidik/bazik kalıntıları inceleyin</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="trouble-card">
+                            <h4>2. Grid Box</h4>
+                            <ul>
+                                <li>Box boyutunu artırın</li>
+                                <li>Merkezlemeyi kontrol edin</li>
+                                <li>Grid aralığını doğrulayın (0.375 Å)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="trouble-card">
+                            <h4>3. Sampling</h4>
+                            <ul>
+                                <li>Evaluations'ı 10× artırın</li>
+                                <li>GA runs'ı 100'e çıkarın</li>
+                                <li>Farklı random seed deneyin</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="trouble-card">
+                            <h4>4. Yük Hesaplama</h4>
+                            <ul>
+                                <li>Kollman yerine Gasteiger deneyin (veya tersi)</li>
+                                <li>Metal iyonu yüklerini kontrol edin</li>
+                                <li>Toplam yükü doğrulayın</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="info-box info">
+                        <h4>💡 İpucu: Birden Fazla Yapıyla Validate</h4>
+                        <p>Mümkünse, aynı proteinin farklı ko-kristalize ligandlarıyla 2-3 redocking yapın. Bu, metodolojinizin güçlülüğünü gösterir.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Kalite Kontrol -->
+            <section id="kalite" class="section">
+                <div class="section-header">
+                    <span class="section-number">09</span>
+                    <h2>Kalite Kontrol Checklistleri</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">Her aşamada sistematik kontroller, güvenilir sonuçları garanti eder.</p>
+                    
+                    <div class="qc-grid">
+                        <div class="qc-section">
+                            <h3>🔬 Docking Öncesi</h3>
+                            
+                            <div class="qc-category">
+                                <h4>Protein Kontrolleri:</h4>
+                                <ul class="checklist">
+                                    <li>Su molekülleri kaldırıldı (kritik olanlar hariç)</li>
+                                    <li>Tüm hidro jenler mevcut (sadece polar H)</li>
+                                    <li>Yükler atandı ve doğrulandı</li>
+                                    <li>Eksik atom yok</li>
+                                    <li>Metal iyonu yükleri düzeltildi (Zn = +2.0)</li>
+                                    <li>Protonasyon durumları belirlendi (PROPKA/H++)</li>
+                                    <li>Alternatif konformasyonlar çözüldü</li>
+                                </ul>
+                            </div>
+
+                            <div class="qc-category">
+                                <h4>Ligand Kontrolleri:</h4>
+                                <ul class="checklist">
+                                    <li>Tüm hidrojenlerin mevcut</li>
+                                    <li>Gasteiger yükleri atandı</li>
+                                    <li>Bilinmeyen atom tipi yok</li>
+                                    <li>Torsiyonlar ≤10 (tercih edilir)</li>
+                                    <li>Hedef pH'da protonlanmış</li>
+                                    <li>Enerji minimize edildi</li>
+                                    <li>Toplam yük makul (tam sayı/yakın)</li>
+                                </ul>
+                            </div>
+
+                            <div class="qc-category">
+                                <h4>Grid Kontrolleri:</h4>
+                                <ul class="checklist">
+                                    <li>Box bağlanma bölgesini kapsar</li>
+                                    <li>Tüm atom tipi haritaları oluşturuldu</li>
+                                    <li>Kapsama görsel onayı yapıldı</li>
+                                    <li>Grid aralığı 0.375 Å</li>
+                                    <li>Box boyutu ligand rotasyonuna izin verir</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="qc-section">
+                            <h3>📊 Docking Sonrası</h3>
+                            
+                            <div class="qc-category">
+                                <h4>Sonuç Kalitesi:</h4>
+                                <ul class="checklist">
+                                    <li>DLG'de ERROR/WARNING yok</li>
+                                    <li>"Successful Completion" mevcut</li>
+                                    <li>Bağlanma enerjileri makul (-5 ila -15)</li>
+                                    <li>İyi kümeleme (>%30 en büyük kümede)</li>
+                                    <li>Kümeler içinde düşük RMSD</li>
+                                    <li>Belirgin enerji ayırımları</li>
+                                </ul>
+                            </div>
+
+                            <div class="qc-category">
+                                <h4>Görsel Validasyon:</h4>
+                                <ul class="checklist">
+                                    <li>Polar atomlar polar kalıntılara yakın</li>
+                                    <li>Ciddi çakışma yok (< vdW yarıçapı)</li>
+                                    <li>Makul H-bağı geometrisi (2.5-3.5 Å)</li>
+                                    <li>Hidrofobik temaslar uygun</li>
+                                    <li>Ligand bağlanma cebine oturur</li>
+                                    <li>Yüklü gruplar uygun yönelimde</li>
+                                </ul>
+                            </div>
+
+                            <div class="qc-category">
+                                <h4>Validasyon:</h4>
+                                <ul class="checklist">
+                                    <li>Redocking RMSD < 2.0 Å</li>
+                                    <li>Birden fazla yapıyla test edildi (ideal)</li>
+                                    <li>Kümeleme yakınsaması doğrulandı</li>
+                                    <li>Enerji sıralaması tutarlı</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box info">
+                        <h4>📝 Dokümantasyon</h4>
+                        <p>Tüm kontrolleri laboratuvar defterinizde veya dijital kayıtlarda belgelendirin:</p>
+                        <ul>
+                            <li>Kullanılan AutoDock versiyonu</li>
+                            <li>Tüm parametre dosyaları (GPF, DPF)</li>
+                            <li>Hazırlanmış yapılar (PDBQT)</li>
+                            <li>Protonasyon durumu kararları ve gerekçeleri</li>
+                            <li>Redocking RMSD değerleri</li>
+                            <li>Yaşanan sorunlar ve çözümleri</li>
+                        </ul>
+                        <p>Bu, tekrarlanabilirliği sağlar ve yayın için gereklidir.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sorun Giderme -->
+            <section id="sorun-giderme" class="section">
+                <div class="section-header">
+                    <span class="section-number">10</span>
+                    <h2>Yaygın Sorunlar & Çözümler</h2>
+                </div>
+                <div class="content-block">
+                    <p class="lead">AutoDock kullanımında sık karşılaşılan problemler ve sistematik çözüm yöntemleri.</p>
+                    
+                    <div class="problem-grid">
+                        <div class="problem-card">
+                            <div class="problem-header error">
+                                <h4>❌ ".map dosyası bulunamıyor"</h4>
+                            </div>
+                            <div class="problem-body">
+                                <p><strong>Neden:</strong> Atom tipi GPF'de eksik</p>
+                                <p><strong>Çözüm:</strong></p>
+                                <ol>
+                                    <li>Ligand PDBQT'deki tüm atom tiplerini listeleyin</li>
+                                    <li>GPF'deki <code>ligand_types</code> satırını güncelleyin</li>
+                                    <li>AutoGrid4'ü yeniden çalıştırın</li>
+                                </ol>
+                                <pre><code class="language-text"># GPF'de
+ligand_types C A OA N HD SA  # Tüm tipler dahil</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header warning">
+                                <h4>⚠️ Yakınsama yok (dağınık kümeler)</h4>
+                            </div>
+                            <div class="problem-body">
+                                <p><strong>Neden:</strong> Yetersiz sampling</p>
+                                <p><strong>Çözüm:</strong></p>
+                                <ol>
+                                    <li>DPF'de <code>ga_num_evals</code>'i 10× artırın</li>
+                                    <li>GA runs'ı 100'e çıkarın</li>
+                                    <li>Grid box boyutunu kontrol edin (çok büyük mü?)</li>
+                                </ol>
+                                <pre><code class="language-text"># DPF'de
+ga_num_evals 25000000  # 2.5M'den 25M'e</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header error">
+                                <h4>❌ Redocking'de yüksek RMSD (>3.0 Å)</h4>
+                            </div>
+                            <div class="problem-body">
+                                <p><strong>Neden:</strong> Grid box sorunları veya yanlış protonasyon</p>
+                                <p><strong>Çözüm:</strong></p>
+                                <ol>
+                                    <li>Box yerleşimini yeniden inceleyin</li>
+                                    <li>Histidin durumlarını kontrol edin (PROPKA)</li>
+                                    <li>Grid box boyutunu artırın (her yön +10 nokta)</li>
+                                    <li>Evaluations'ı 2-5× artırın</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header warning">
+                                <h4>⚠️ Metal koordinasyonu yanlış</h4>
+                            </div>
+                            <div class="problem-body">
+                                <p><strong>Neden:</strong> Metal iyonlarında eksik yükler</p>
+                                <p><strong>Çözüm:</strong></p>
+                                <pre><code class="language-bash"># PDBQT'de manuel düzelt
+# ÖNCE (ADT varsayılan):
+ATOM 1234 ZN ZN A 500 10.1 20.5 30.8 1.00 20.00 0.000 Zn
+
+# SONRA (düzeltilmiş):
+ATOM 1234 ZN ZN A 500 10.1 20.5 30.8 1.00 20.00 +2.000 Zn</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header info">
+                                <h4>ℹ️ Çalıştırmalar arasında farklı sonuçlar</h4>
+                            </div>
+                            <div class="problem-body">
+                                <p><strong>Neden:</strong> Random seed varyasyonu</p>
+                                <p><strong>Çözüm:</strong></p>
+                                <p>Tekrarlanabilirlik için DPF'de seed değeri ayarlayın:</p>
+                                <pre><code class="language-text"># DPF'de
+seed 123456  # Sabit bir değer kullan</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header error">
+                                <h4>❌ Mantıksız bağlanma enerjileri</h4>
+                            </div>
+                            <div class="problem-body">
+                                <p><strong>Neden:</strong> Yanlış yük ataması</p>
+                                <p><strong>Çözüm:</strong></p>
+                                <ol>
+                                    <li>Gasteiger/Kollman yüklerini doğrulayın</li>
+                                    <li>Kalıntı başına yük toplamlarını kontrol edin</li>
+                                    <li>Metal iyonu yüklerini inceleyin</li>
+                                    <li>Alternatif yük yöntemi deneyin</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header warning">
+                                <h4>⚠️ Ligand bağlanma bölgesi dışında</h4>
+                            </div>
+                            <div class="problem-body">
+                                <p><strong>Neden:</strong> Grid box çok büyük veya yanlış merkezlenmiş</p>
+                                <p><strong>Çözüm:</strong></p>
+                                <ol>
+                                    <li>Box boyutunu küçültün</li>
+                                    <li>Bilinen bağlanma bölgesine merkezleyin</li>
+                                    <li>Grid box'ı görsel olarak doğrulayın</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="problem-card">
+                            <div class="problem-header info">
+                                <h4>ℹ️ Hesaplama çok yavaş</h4>
+                            </div>
+                            <div class="problem-body">
+                                <p><strong>Neden:</strong> Çok fazla torsiyon veya evaluation</p>
+                                <p><strong>Çözüm:</strong></p>
+                                <ol>
+                                    <li>Torsiyonları azaltın (≤10)</li>
+                                    <li>Ligandı parçalamayı düşünün</li>
+                                    <li>Önce düşük evaluations ile test edin</li>
+                                    <li>Paralel hesaplama kullanın (AutoDock-GPU)</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="help-box">
+                        <h4>🆘 Ek Yardım Kaynakları</h4>
+                        <ul>
+                            <li><strong>AutoDock FAQ:</strong> <a href="http://autodock.scripps.edu/faqs-help" target="_blank">autodock.scripps.edu/faqs-help</a></li>
+                            <li><strong>User Mailing List:</strong> AutoDock topluluğuna sorular sorun</li>
+                            <li><strong>Tutorials:</strong> Resmi ve topluluk tutoriallerini inceleyin</li>
+                            <li><strong>Research Papers:</strong> Metodoloji makalelerini okuyun</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>AutoDock 4 Rehberi</h3>
+                        <p>Eksiksiz moleküler docking protokolü - Protein hazırlamadan validasyona</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Kaynaklar</h4>
+                        <ul>
+                            <li><a href="http://autodock.scripps.edu/" target="_blank">AutoDock Resmi Site</a></li>
+                            <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2760638/" target="_blank">AutoDock4 Paper</a></li>
+                            <li><a href="https://github.com/" target="_blank">GitHub Repository</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Referanslar</h4>
+                        <p class="citation">Morris, G. M., et al. (2009). AutoDock4 and AutoDockTools4: Automated docking with selective receptor flexibility. <em>Journal of Computational Chemistry</em>, 30(16), 2785-2791.</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>Bu rehber araştırma ve eğitim amaçlıdır. Son güncellemeler için resmi dokümantasyonu kontrol edin.</p>
+                    <p>© 2024 AutoDock Tutorial | Açık Kaynak Topluluk Kaynağı</p>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-powershell.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
