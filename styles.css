@@ -48,6 +48,12 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
@@ -383,12 +389,16 @@ code {
     border-radius: 3px;
     border: 1px solid var(--border);
     color: var(--primary);
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
-pre {
+pre,
+pre[class*="language-"] {
     background: #1e293b;
     border-radius: 8px;
     padding: 1.5rem;
+    max-width: 100%;
     overflow-x: auto;
     margin: 1rem 0;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -399,6 +409,8 @@ pre code {
     border: none;
     color: #e2e8f0;
     padding: 0;
+    overflow-wrap: normal;
+    word-break: normal;
 }
 
 /* ========================================
@@ -569,6 +581,8 @@ cite {
 
 .step-content {
     flex: 1;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .step-content h4 {
@@ -1236,7 +1250,42 @@ tbody tr:hover {
    RESPONSIVE
    ======================================== */
 
+.workflow-card,
+.tool-card,
+.method-card,
+.param-card,
+.analysis-card,
+.qc-section,
+.problem-card,
+.trouble-card,
+.step-box,
+.protocol-step,
+.rmsd-item,
+.rmsd-label,
+.info-box,
+.formula-box,
+.param-box,
+.terminal-box,
+.checklist-box,
+.help-box,
+.content-block,
+.grid-2 > *,
+.grid-3 > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+@media (hover: none) {
+    .copy-btn {
+        opacity: 1 !important;
+    }
+}
+
 @media (max-width: 768px) {
+    .container {
+        padding: 0 1.25rem;
+    }
+
     .section-header {
         flex-direction: column;
         align-items: flex-start;
@@ -1258,11 +1307,19 @@ tbody tr:hover {
     .workflow-grid,
     .grid-2,
     .grid-3,
-    .qc-grid {
-        grid-template-columns: 1fr;
+    .tool-grid,
+    .param-grid,
+    .analysis-grid,
+    .scale-bar,
+    .qc-grid,
+    .problem-grid,
+    .troubleshoot-grid,
+    .footer-content {
+        grid-template-columns: minmax(0, 1fr);
     }
     
-    .step-box {
+    .step-box,
+    .protocol-step {
         flex-direction: column;
     }
     
@@ -1270,6 +1327,12 @@ tbody tr:hover {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
+    }
+
+    table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
     }
 }
 
